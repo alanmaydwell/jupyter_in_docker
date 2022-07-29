@@ -1,0 +1,20 @@
+version: '3.4'
+
+services:
+   jupyter:
+     #image: 
+     build:
+        context: . 
+        dockerfile: Dockerfile
+     ports:
+       # Jupyter
+       - 8888:8888
+       # Database
+       - 1521:1521
+     volumes:
+       - ./notebooks:/notebooks
+     # Set a fixed access token for Jupyter so we can have convenient access
+     environment:
+        JUPYTER_TOKEN: "docker"
+     # Need the --ip=0.0.0.0 for access to work. Need --allow-root otherwise juptyer auto quits if run as root
+     command: bash -c "jupyter-lab --ip=0.0.0.0 --no-browser --allow-root"
