@@ -1,4 +1,4 @@
-# Jupyter Lab in Docker
+# Jupyter Lab and Python Oracle Database modules in Docker
 
 
 Runs Jupyter Lab in Docker Container with some extras installed: 
@@ -7,9 +7,9 @@ Runs Jupyter Lab in Docker Container with some extras installed:
 - numpy
 - pandas
 - matplotlib
-- oracle instant client **(note this doesn't work - config needed?)**
+- oracle instant client 21.7
 - oracledb Python module
-- cx_Oracle Python module
+- cx_Oracle Python module (needs Oracle instant client above)
 
 Idea is to use it to extract and visualise data from Oracle Databases.
 
@@ -24,7 +24,6 @@ Partly based on information found here:  https://towardsdatascience.com/dockeriz
 6. Note the `notebooks` sub directory is mounted as volume `/notebooks` in the docker container. This can be changed or extended by updating the volumes section of docker-compose.yml.
 
 ## Oracle Client Problem
-Oracle instant client does not seem to be working within the container. Note this isn't necessarily a problem as oracledb Python module can connect to databases without instant client, except in the case of some older database versions.
+Originally tried to install Oracle Instant Client using conda command `conda install -y -c eumetsat oracle-instantclient` which completed successfully. However, it didn't actually work, e.g. running `cx_Oracle.clientversion()` gave error message` DPI-1047: Cannot locate a 64-bit Oracle Client library: "libaio.so.1`. 
 
-### Details of problem
-Oracle Instant Client was installed using conda command `conda install -y -c eumetsat oracle-instantclient` which completed successfully. However, running `cx_Oracle.clientversion()` gives error ` DPI-1047: Cannot locate a 64-bit Oracle Client library: "libaio.so.1`. This file does not seem to be present on the container. Also there's no directory `/usr/lib/oracle` in which instant client files can be expected to be found.
+Instead, switched to a direct install that relies on downloading a zip file and unpacking it. This is run in the Dockerfile. There is also one last bit of config in docker-compose.yml in the form of `ldconfig` in its last line. I have been able to use this successfully.
