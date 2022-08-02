@@ -9,13 +9,17 @@ services:
      ports:
        # Jupyter
        - 8888:8888
-       # Database
-       - 1521:1521
+       # Database (not needed works by magic with host.docker.internal)
+       # - 1521:1521
      volumes:
        - ./notebooks:/notebooks
      # Set a fixed access token for Jupyter so we can have convenient access
      environment:
+        # Set a fixed access token for Jupyter so we can have convenient access
         JUPYTER_TOKEN: "docker"
+        # Set the jupyter settings and workspaces dir to be within the mounted volume, so get preserved locally
+        JUPYTERLAB_SETTINGS_DIR: "/notebooks/jupyter_settings"
+        JUPYTERLAB_WORKSPACES_DIR: "/notebooks/jupyter_settings"
      # ldconfig added to get Oracle instant client to work
      # Need the --ip=0.0.0.0 for access to work. Need --allow-root otherwise juptyer auto quits if run as root
      command: bash -c "ldconfig && cd /notebooks && jupyter-lab --ip=0.0.0.0 --no-browser --allow-root"
