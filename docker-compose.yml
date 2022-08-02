@@ -22,4 +22,4 @@ services:
         JUPYTERLAB_WORKSPACES_DIR: "/notebooks/jupyter_settings"
      # ldconfig added to get Oracle instant client to work
      # Need the --ip=0.0.0.0 for access to work. Need --allow-root otherwise juptyer auto quits if run as root
-     command: bash -c "ldconfig && cd /notebooks && jupyter-lab --ip=0.0.0.0 --no-browser --allow-root"
+     command: bash -c "echo \"*** USE THIS URL *** http://localhost:8888/lab?token=docker\" && ldconfig && cd /notebooks && jupyter-lab --ip=0.0.0.0 --no-browser --allow-root"
