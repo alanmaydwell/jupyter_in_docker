@@ -4,6 +4,8 @@ services:
    jupyter:
      #image: 
      build:
+        # network: "host" added for Linux AWS Workspace compatibility. Not needed on Mac.
+        network: "host"
         context: . 
         dockerfile: Dockerfile
      ports:
@@ -13,7 +15,6 @@ services:
        # - 1521:1521
      volumes:
        - ./notebooks:/notebooks
-     # Set a fixed access token for Jupyter so we can have convenient access
      environment:
         # Set a fixed access token for Jupyter so we can have convenient access
         JUPYTER_TOKEN: "docker"
