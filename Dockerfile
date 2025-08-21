@@ -14,7 +14,7 @@ RUN conda install -y \
 RUN conda install -y -c conda-forge ipywidgets
 
 # Pip installs (oracledb not available from conda?)
-RUN pip install oracledb cx_Oracle
+RUN pip install oracledb cx_Oracle openpyxl
 
 # Oracle instant client install
 # (unzip needed installation, libaio1 needed for oracle client to actually work)
